@@ -6,7 +6,7 @@ def call() {
         echo "Installing AWS CLI..."
         curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
         unzip -q awscliv2.zip
-        sudo ./aws/install
+        ./aws/install
         aws --version
         
         # Install Terraform
@@ -14,7 +14,7 @@ def call() {
         TERRAFORM_VERSION="1.5.7"
         wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
         unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
-        sudo mv terraform /usr/local/bin/
+        mv terraform /usr/local/bin/
         terraform --version
         
         # Clean up
