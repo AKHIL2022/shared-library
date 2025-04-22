@@ -19,10 +19,10 @@ pipeline {
             steps {
                 sh '''
                     echo "Validating Terraform installation..."
-                    terraform version
+                    $HOME/bin/terraform version
                     
                     echo "Validating AWS CLI installation..."
-                    aws --version
+                    $HOME/.local/bin/aws --version
                 '''
             }
         }
