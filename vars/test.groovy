@@ -1,7 +1,5 @@
 def call() {
     echo "Installing Terraform and AWS CLI on Linux"
-    
-   echo 'Installing AWS CLI...'
                     sh '''
                          echo "Installing AWS CLI..."
                          mkdir -p $HOME/bin
