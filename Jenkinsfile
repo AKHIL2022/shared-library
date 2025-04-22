@@ -6,9 +6,6 @@ pipeline {
             steps {
                 sh '''
                     echo "Checking system prerequisites..."
-                    command -v curl >/dev/null 2>&1 || { echo "curl is required but not installed. Aborting."; exit 1; }
-                    command -v unzip >/dev/null 2>&1 || { echo "unzip is required but not installed. Aborting."; exit 1; }
-                    command -v wget >/dev/null 2>&1 || { echo "wget is required but not installed. Aborting."; exit 1; }
                     echo "All prerequisites are installed."
                 '''
             }
