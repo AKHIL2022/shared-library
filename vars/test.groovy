@@ -3,26 +3,17 @@ def call() {
     
    echo 'Installing AWS CLI...'
                     sh '''
-                        # Download and unzip AWS CLI
-                        curl -s -o awscliv2.zip https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+                        echo "Installing AWS CLI..."
+                        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
                         unzip -o awscliv2.zip
-                        
-                        # Install and verify
-                        ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
-                        aws --version
-                    '''
-                    
-                    // Install Terraform
-                    echo 'Installing Terraform...'
+                       ./aws/install --bin-dir $HOME/bin --install-dir $HOME/aws-cli --update
+                        rm -rf awscliv2.zip aws
+                    '''    
                     sh '''
-                        TERRAFORM_VERSION="1.5.7"
-                        # Download and unzip Terraform
-                        wget -q https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
-                        unzip -o terraform_${TERRAFORM_VERSION}_linux_amd64.zip
-                        
-                        # Install and verify
-                        mv terraform /usr/local/bin/
-                        terraform --version
+                         echo "Installing Terraform..."
+                         wget https://releases.hashicorp.com/terraform/1.5.0/terraform_1.5.0_linux_amd64.zip
+                         unzip -o terraform_1.5.0_linux_amd64.zip -d $HOME/bin/
+                         rm terraform_1.5.0_linux_amd64.zip
                     '''
     
     echo "Terraform and AWS CLI installation complete!"
