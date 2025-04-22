@@ -11,6 +11,7 @@ def call() {
                     '''    
                     sh '''
                          echo "Installing Terraform..."
+                         apt-get install wget -y
                          wget https://releases.hashicorp.com/terraform/1.5.0/terraform_1.5.0_linux_amd64.zip
                          unzip -o terraform_1.5.0_linux_amd64.zip -d $HOME/bin/
                          rm terraform_1.5.0_linux_amd64.zip
