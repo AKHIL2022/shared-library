@@ -19,11 +19,10 @@ pipeline {
             steps {
                 sh '''
                     echo "Validating Terraform installation..."
-                    terraform version
+                    terraform --version
                     
                     echo "Validating AWS CLI installation..."
                     aws --version
-                    aws sts get-caller-identity || echo "AWS CLI not configured; skipping identity check."
                 '''
             }
         }
