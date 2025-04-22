@@ -1,8 +1,6 @@
 @Library('jenkins-shared-pipeline') _
 pipeline {
-    agent {
-        label 'linux' // Ensure the agent is a Linux machine
-    }
+    agent any
     stages {
         stage('Check Prerequisites') {
             steps {
