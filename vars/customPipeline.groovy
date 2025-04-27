@@ -1,49 +1,54 @@
 def call(Map config) {
     pipeline {
-        agent any
+        agent {
+            docker {
+                image 'node:16-bullseye' // Base image with Node.js 16
+                args '-v $HOME/.m2:/root/.m2' // Maven cache persistence
+            }
+        }
+        tools {
+            maven 'Maven-3.8.6' // Name from Jenkins Global Tool Config
+            jdk 'JDK17' // Name from Jenkins Global Tool Config
+        }
         stages {
             stage('Clone Repository') {
                 steps {
+                    git url: config.repoUrl, branch: config.branch
+                }
+            }
+
+            stage('Setup Environment') {
+                steps {
                     script {
-                        git url: config.repoUrl, branch: config.branch
-                        echo "Cloned ${config.repoUrl} (${config.branch})"
+                        // Verify installations
+                        sh """
+                            node --version
+                            npm --version
+                            java --version
+                            mvn --version
+                        """
+                        
+                        // Install specific npm version if needed
+                        sh 'npm install -g npm@8'
                     }
                 }
             }
 
-            stage('Setup Dependencies') {
+            stage('Install Dependencies') {
                 steps {
-                    script {
-                        if(fileExists('package.json')) {
-                            sh 'npm install'
-                            echo "Node modules installed"
-                        } else {
-                            echo "No package.json found - skipping npm install"
-                        }
-                    }
-                }
-            }
-
-            stage('Run Basic Checks') {
-                steps {
-                    script {
-                        sh 'node --version || echo "Node not installed"'
-                        sh 'npm --version || echo "NPM not installed"'
-                        sh 'java -version'
-                    }
+                    sh 'npm install'
+                    sh 'mvn dependency:resolve' // If using Maven
                 }
             }
 
             stage('Build') {
                 steps {
-                    sh 'echo "Simulating build process" > build.log'
-                    sh 'cat build.log'
+                    sh 'npm run build'
                 }
             }
         }
         post {
             always {
-                echo "Pipeline complete - ${currentBuild.result ?: 'SUCCESS'}"
                 archiveArtifacts artifacts: 'build.log', allowEmptyArchive: true
             }
         }
