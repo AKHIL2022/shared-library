@@ -10,17 +10,16 @@ def call(Map config) {
 
         stage('Install AWS CLI') {
             steps {
-                sh '''#!/bin/bash
-                    # Update and install required dependencies
-                    apt-get update && apt-get install -y \\
-                        curl \\
-                        unzip
-
-                    # Install AWS CLI v2
-                    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-                    unzip awscliv2.zip
-                    ./aws/install
-                '''
+                 sh '''
+                         echo "Installing AWS CLI..."
+                         mkdir -p $HOME/bin
+                         curl -o awscliv2.zip "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+                         unzip -o awscliv2.zip
+                         ./aws/install --bin-dir $HOME/.local/bin --install-dir $HOME/.local/aws-cli --update
+                         rm -rf awscliv2.zip aws
+                         export PATH=$HOME/.local/bin:$PATH
+                         echo "PATH is set to: $PATH"
+                      '''    
             }
         }
 
