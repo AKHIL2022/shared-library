@@ -36,13 +36,14 @@ def call(Map config) {
             }
         }
 
-        stage('Verify Installations') {
+        stage('Validate Installation') {
             steps {
-                sh '''#!/bin/bash
-                    echo "AWS CLI version:"
-                    aws --version
-                    echo "\\nTerraform version:"
-                    terraform --version
+                sh '''
+                    echo "Validating Terraform installation..."
+                    $HOME/bin/terraform version
+                    
+                    echo "Validating AWS CLI installation..."
+                    $HOME/.local/bin/aws --version
                 '''
             }
         }
