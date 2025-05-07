@@ -1,8 +1,6 @@
 def call(Map config) {
     String productName = config.productName ?: 'MyHCLSoftware'
-    String folderName = config.folderName ?: '.'
     String apiKeyCredentialId = config.apiKeyCredentialId ?: 'mend-api-key'
-    boolean isPackageJsonChanged = config.containsKey('isPackageJsonChanged') ? config.isPackageJsonChanged : true
     
     dir(folderName) {
         withEnv([
@@ -12,7 +10,7 @@ def call(Map config) {
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
                 echo 'Running NPM Audit, Job will fail if there are high priority issues'
-                if (config.isPackageJsonChanged) {
+                if (isPackageJsonChanged) {
                     echo 'Downloading Mend Unified Agent'
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
                     echo 'Generate Mend Report'
