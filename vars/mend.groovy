@@ -10,8 +10,8 @@ def call(Map config) {
             "WS_WSS_URL=https://saas.whitesourcesoftware.com/agent"
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
-
                 echo 'Running NPM Audit, Job will fail if there are high priority issues'
+                echo "isPackageJsonChanged: ${isPackageJsonChanged}"
                 if (config.isPackageJsonChanged) {
                     echo 'Downloading Mend Unified Agent'
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
