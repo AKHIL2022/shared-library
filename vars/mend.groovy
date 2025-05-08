@@ -10,6 +10,10 @@ def call(String projectName,String localFolderName,Boolean isPackageJsonChanged)
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
                 echo 'Running NPM Audit, Job will fail if there are high priority issues'
+                echo "=== Mend Configuration ==="
+                echo "- Application: ${params.applicationName}"
+                echo "- Directory: ${params.localFolderName}"
+                echo "- Package.json Changed: ${params.isPackageJsonChanged}"
                 if (params.isPackageJsonChanged) {
                     echo 'Downloading Mend Unified Agent'
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
