@@ -10,11 +10,11 @@ def call(Map params) {
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
                 echo 'Running NPM Audit, Job will fail if there are high priority issues'
-                echo "- WS_WSS_URL    : ${env.WS_WSS_URL}"
-                echo "- WS_PRODUCTNAME: ${env.WS_PRODUCTNAME}"
+                 echo "=== Mend Configuration ==="
+                echo "- WS_WSS_URL: ${env.WS_WSS_URL}"
                 echo "- WS_PROJECTNAME: ${env.WS_PROJECTNAME}"
-                echo "- WS_KEY: ${env.WS_APIKEY}"
-                echo "-folderName: ${env.localFolderName}"
+                echo "- WS_PRODUCTNAME: ${env.WS_PRODUCTNAME}"
+                echo "- Folder: ${params.localFolderName}"
                 if (params.isPackageJsonChanged) {
                     echo 'Downloading Mend Unified Agent'
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
