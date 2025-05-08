@@ -4,7 +4,7 @@ def call(Map params) {
     
     dir(params.localFolderName) {
         withEnv([
-            "WS_PRODUCTNAME=${params.productName}",
+            "WS_PRODUCTNAME=${productName}",
             "WS_PROJECTNAME=${params.applicationName}",
             "WS_WSS_URL=https://saas.whitesourcesoftware.com/agent"
         ]) {
