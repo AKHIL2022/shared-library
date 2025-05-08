@@ -11,7 +11,7 @@ def call(Map params) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
                 echo 'Running NPM Audit, Job will fail if there are high priority issues'
                 echo "=== Mend Configuration ==="
-                echo "- Application: ${params.applicationName}"
+                echo "- Application: ${params.projectName}"
                 echo "- Directory: ${params.localFolderName}"
                 echo "- Package.json Changed: ${params.isPackageJsonChanged}"
                 if (params.isPackageJsonChanged) {
