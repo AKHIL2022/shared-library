@@ -1,6 +1,6 @@
 def call(Map params) {
-    String productName = config.productName ?: 'MyHCLSoftware'
-    String apiKeyCredentialId = config.apiKeyCredentialId ?: 'mend-api-key'
+    String productName = params.productName ?: 'MyHCLSoftware'
+    String apiKeyCredentialId = params.apiKeyCredentialId ?: 'mend-api-key'
     
     dir(params.localFolderName) {
         withEnv([
