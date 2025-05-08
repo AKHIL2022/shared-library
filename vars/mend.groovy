@@ -8,12 +8,12 @@ def call(Map config) {
             "WS_PRODUCTNAME=${productName}",
             "WS_PROJECTNAME=${config.applicationName}",
             "WS_WSS_URL=https://saas.whitesourcesoftware.com/agent"
-            echo "WS_PRODUCTNAME = ${env.WS_PRODUCTNAME}"
-            echo "WS_PROJECTNAME = ${env.WS_PROJECTNAME}" 
-            echo "localFolderName = ${localFolderName}"
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
                 echo 'Running NPM Audit, Job will fail if there are high priority issues'
+                echo "WS_PRODUCTNAME = ${env.WS_PRODUCTNAME}"
+                echo "WS_PROJECTNAME = ${env.WS_PROJECTNAME}" 
+                echo "localFolderName = ${localFolderName}"
                 if (isPackageJsonChanged) {
                     echo 'Downloading Mend Unified Agent'
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
