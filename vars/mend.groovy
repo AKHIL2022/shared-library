@@ -1,11 +1,11 @@
-def call(String projectName,String localFolderName,Boolean isPackageJsonChanged) {
+def call(Map params) {
     String productName = 'HCLCODE'
     String apiKeyCredentialId = params.apiKeyCredentialId ?: 'mend-api-key'
     
     dir(params.localFolderName) {
         withEnv([
             "WS_PRODUCTNAME=${productName}",
-            "WS_PROJECTNAME=${projectName}",
+            "WS_PROJECTNAME=${params.projectName}",
             "WS_WSS_URL=https://saas.whitesourcesoftware.com/agent"
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
