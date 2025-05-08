@@ -1,12 +1,12 @@
 def call(Map config) {
     String productName = config.productName ?: 'MyHCLSoftware'
     String apiKeyCredentialId = config.apiKeyCredentialId ?: 'mend-api-key'
-    String folderName = config.folderName ?: 'shared-library'
+    String folderName = config.localFolderName ?: '.'
     
     dir(folderName) {
         withEnv([
             "WS_PRODUCTNAME=${productName}",
-            "WS_PROJECTNAME=${config.projectName}",
+            "WS_PROJECTNAME=${config.applicationName}",
             "WS_WSS_URL=https://saas.whitesourcesoftware.com/agent"
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
