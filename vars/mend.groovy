@@ -1,7 +1,7 @@
 def call(Map config) {
     String productName = config.productName ?: 'MyHCLSoftware'
     String apiKeyCredentialId = config.apiKeyCredentialId ?: 'mend-api-key'
-    String localFolderName = config.localFolderName
+    String localFolderName = config.localFolderName ?: '.'
     
     dir(localFolderName) {
         withEnv([
