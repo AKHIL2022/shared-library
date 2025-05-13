@@ -2,7 +2,7 @@ def call(Map params) {
     String productName = 'HCLCODE'
     String apiKeyCredentialId = params.apiKeyCredentialId ?: 'mend-api-key'
     
-    dir(params.localFolderName) {
+    dir(params.folderName) {
         withEnv([
             "WS_PRODUCTNAME=${productName}",
             "WS_PROJECTNAME=${params.projectName}",
