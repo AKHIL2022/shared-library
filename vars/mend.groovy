@@ -2,7 +2,7 @@ def call(Map params) {
     String productName = 'HCLCODE'
     String apiKeyCredentialId = params.apiKeyCredentialId ?: 'mend-api-key'
     
-    def runMendScan = {
+    def mendScan = {
         withEnv([
             "WS_PRODUCTNAME=${productName}",
             "WS_PROJECTNAME=${params.applicationName}",
@@ -10,7 +10,7 @@ def call(Map params) {
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
                 echo 'Running NPM Audit, Job will fail if there are high priority issues'
-                if (params.IsPackageJsonChanged?.toString()?.toBoolean()) {
+                if (params.IsPackageJsonChanged?.toString()?.toBoolean() ?: true) {
                     echo 'Downloading Mend Unified Agent'
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
                     echo 'Generate Mend Report'
@@ -21,9 +21,9 @@ def call(Map params) {
     }
     if (params.localFolderName) {
         dir(params.localFolderName) {
-            runMendScan()
+            mendScan() 
         }
     } else {
-        runMendScan()
+        mendScan()
     }
 }
