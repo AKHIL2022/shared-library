@@ -12,7 +12,7 @@ def call(Map params) {
                 echo 'Running NPM Audit, Job will fail if there are high priority issues'
                 echo "=== Mend Configuration ==="
                 echo "- Application: ${params.projectName}"
-                echo "- Directory: ${params.localFolderName}"
+                echo "- Directory: ${params.folderName}"
                 echo "- Package.json Changed: ${params.isPackageJsonChanged}"
                 if (params.isPackageJsonChanged) {
                     echo 'Downloading Mend Unified Agent'
