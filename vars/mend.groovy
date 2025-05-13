@@ -14,8 +14,8 @@ def call(Map params) {
                     echo 'Downloading Mend Unified Agent'
                      echo "=== Mend Configuration ==="
                      echo "- Application: ${params.projectName}"
-                     echo "- Directory: ${params.folderName}"
-                     echo "- Package.json Changed: ${params.IsPackageJsonChanged }"
+                     echo "- Directory: ${params.localFolderName}"
+                     echo "- Package.json Changed: ${params.IsPackageJsonChanged}"
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
                     echo 'Generate Mend Report'
                     sh 'java -jar wss-unified-agent.jar'
