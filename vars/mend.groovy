@@ -19,6 +19,8 @@ def call(Map params) {
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
                     echo 'Generate Mend Report'
                     sh 'java -jar wss-unified-agent.jar'
+                }else {
+                    echo 'Skipping Mend scan Package.json not changed'
                 }
             }
         }
