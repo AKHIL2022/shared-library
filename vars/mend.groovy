@@ -12,7 +12,7 @@ def call(Map params) {
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
                 echo 'Running NPM Audit, Job will fail if there are high priority issues'
-                if (params.IsPackageJsonChanged?.toBoolean() ?: true) {
+                if (params.IsPackageJsonChanged == null || params.IsPackageJsonChanged) {
                     echo 'Downloading Mend Unified Agent'
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
                     echo 'Generate Mend Report'
