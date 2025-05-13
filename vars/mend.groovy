@@ -10,7 +10,7 @@ def call(Map params) {
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
                 echo 'Running NPM Audit, Job will fail if there are high priority issues'
-                if (params.PackageJsonChanged?.toBoolean() ?: true) {
+                if (params.IsPackageJsonChanged?.toBoolean() ?: true) {
                     echo 'Downloading Mend Unified Agent'
                      echo "=== Mend Configuration ==="
                      echo "- Application: ${params.projectName}"
@@ -23,8 +23,8 @@ def call(Map params) {
             }
         }
     }
-    if (params.folderName) {
-        dir(params.folderName) {
+    if (params.localFolderName ) {
+        dir(params.localFolderName ) {
             mendScan() 
         }
     } else {
