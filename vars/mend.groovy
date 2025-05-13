@@ -5,7 +5,7 @@ def call(Map params) {
     def mendScan = {
         withEnv([
             "WS_PRODUCTNAME=${productName}",
-            "WS_PROJECTNAME=${params.applicationName}",
+            "WS_PROJECTNAME=${params.projectName}",
             "WS_WSS_URL=https://saas.whitesourcesoftware.com/agent"
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
@@ -15,7 +15,6 @@ def call(Map params) {
                      echo "=== Mend Configuration ==="
                      echo "- Application: ${params.projectName}"
                      echo "- Directory: ${params.localFolderName}"
-                    echo "- ProjectName: ${params.applicationName}"
                      echo "- Package.json Changed: ${params.IsPackageJsonChanged}"
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
                     echo 'Generate Mend Report'
