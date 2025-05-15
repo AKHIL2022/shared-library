@@ -1,13 +1,13 @@
 def call (Map params) {
       echo "objectname: ${s3ObjectName}"
-      echo "gitkey: ${[params.gitEnvRepoCredentialsId}"
-      echo "gitbranch: ${[params.gitEnvDevBranchName}"
-      echo "giturl: ${[params.gitEnvUrl}"
-      echo "package: ${[params.packageName}"
-      echo "filename: ${[params.versionFileName}"       
-      echo "author: ${[params.authorName}"
-      echo "email: ${[params.authorEmail}"
-      echo "repo: ${[params.gitEnvRepoName}"                 
+      echo "gitkey: ${params.gitEnvRepoCredentialsId}"
+      echo "gitbranch: ${params.gitEnvDevBranchName}"
+      echo "giturl: ${params.gitEnvUrl}"
+      echo "package: ${params.packageName}"
+      echo "filename: ${params.versionFileName}"       
+      echo "author: ${params.authorName}"
+      echo "email: ${params.authorEmail}"
+      echo "repo: ${params.gitEnvRepoName}"                 
                        
       steps {
         withCredentials([sshUserPrivateKey(credentialsId: params.gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
