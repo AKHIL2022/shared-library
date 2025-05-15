@@ -4,6 +4,7 @@ def call(Map params) {
         s3ObjectName = "${params.applicationName}/${params.packageName}/${version}.zip"
       }
     withAWS(region: 'us-east-1', credentials: 'aws-deployment-backend') {
+        echo "s3ObjectName"
         s3Upload(
             pathStyleAccessEnabled: true,
             payloadSigningEnabled: true,
