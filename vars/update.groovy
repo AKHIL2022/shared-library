@@ -1,5 +1,5 @@
 def call (Map params) {
-      echo "objectname: ${s3ObjectName}"
+      echo "objectname: ${params.s3ObjectName}"
       echo "gitkey: ${params.gitEnvRepoCredentialsId}"
       echo "gitbranch: ${params.gitEnvDevBranchName}"
       echo "giturl: ${params.gitEnvUrl}"
