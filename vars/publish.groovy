@@ -1,4 +1,4 @@
-def call() {
+def call(Map params) {
       script {
         version = sh(script: "echo -n v\$(date +%Y%m%d-%H%M%S)", returnStdout: true)
         s3ObjectName = "${params.applicationName}/${params.packageName}/${version}.zip"
