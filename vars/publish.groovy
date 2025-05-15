@@ -16,5 +16,6 @@ def call(Map params) {
             path: s3ObjectName
         )
     }
+    echo "Generated s3ObjectName: ${s3ObjectName}"
     return s3ObjectName  
 }
