@@ -7,9 +7,9 @@ def call(Map params) {
         s3Upload(
             pathStyleAccessEnabled: true,
             payloadSigningEnabled: true,
-            file: bundleFileName,
-            bucket: s3BucketName,
-            path: s3ObjectName
+            file: params.bundleFileName,
+            bucket: params.s3BucketName,
+            path: params.s3ObjectName
         )
     }
 }
