@@ -1,7 +1,13 @@
 def call(Map params) {
+      if (!binding.hasVariable('applicationName'))
+      if (!binding.hasVariable('packageName'))
+      if (!binding.hasVariable('bundleFileName'))
+      if (!binding.hasVariable('s3BucketName'))
+      if (!binding.hasVariable('s3ObjectName'))
+      
       script {
         version = sh(script: "echo -n v\$(date +%Y%m%d-%H%M%S)", returnStdout: true)
-        s3ObjectName = "${params.applicationName}/${params.packageName}/${version}.zip"
+        s3ObjectName = "${applicationName}/${packageName}/${version}.zip"
       }
     withAWS(region: 'us-east-1', credentials: 'aws-deployment-backend') {
         echo "Version is: ${version}"  
@@ -9,9 +15,9 @@ def call(Map params) {
         s3Upload(
             pathStyleAccessEnabled: true,
             payloadSigningEnabled: true,
-            file: params.bundleFileName,
-            bucket: params.s3BucketName,
-            path: params.s3ObjectName
+            file: bundleFileName,
+            bucket: s3BucketName,
+            path: s3ObjectName
         )
     }
 }
