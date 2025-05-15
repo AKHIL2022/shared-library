@@ -16,4 +16,5 @@ def call(Map params) {
             path: s3ObjectName
         )
     }
+    return s3ObjectName  
 }
