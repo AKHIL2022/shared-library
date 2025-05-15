@@ -1,6 +1,16 @@
 def call (Map params) {
+      echo "objectname: ${s3ObjectName}"
+      echo "gitkey: ${[params.gitEnvRepoCredentialsId}"
+      echo "gitbranch: ${[params.gitEnvDevBranchName}"
+      echo "giturl: ${[params.gitEnvUrl}"
+      echo "package: ${[params.packageName}"
+      echo "filename: ${[params.versionFileName}"       
+      echo "author: ${[params.authorName}"
+      echo "email: ${[params.authorEmail}"
+      echo "repo: ${[params.gitEnvRepoName}"                 
+                       
       steps {
-        withCredentials([sshUserPrivateKey(credentialsId: gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
+        withCredentials([sshUserPrivateKey(credentialsId: params.gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
           sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git clone --depth=1 --branch ${params.gitEnvDevBranchName} ${params.gitEnvUrl}"
         }
         script {
@@ -47,7 +57,7 @@ def call (Map params) {
               --author=\"${gitCommitAuthorName} <${gitCommitAuthorEmail}>\"
           """.stripIndent()
           retry(3) {
-            withCredentials([sshUserPrivateKey(credentialsId: gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
+            withCredentials([sshUserPrivateKey(credentialsId: params.gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
               sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git -c \"user.name=${params.authorName}\" -c \"user.email=${params.authorEmail}\" pull --rebase origin refs/heads/${params.gitEnvDevBranchName}"
               sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git push origin HEAD:refs/heads/${params.gitEnvDevBranchName}"
             }
