@@ -1,7 +1,7 @@
 def call() {
       script {
         version = sh(script: "echo -n v\$(date +%Y%m%d-%H%M%S)", returnStdout: true)
-        s3ObjectName = "${ProjectName}/${packageName}/${version}.zip"
+        s3ObjectName = "${projectName}/${packageName}/${version}.zip"
       }
     withAWS(region: 'us-east-1', credentials: 'aws-deployment-backend') {
         s3Upload(
