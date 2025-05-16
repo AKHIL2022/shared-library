@@ -1,7 +1,7 @@
 def call(Map params) {
       script {
-        version = sh(script: "echo -n v\$(date +%Y%m%d-%H%M%S)", returnStdout: true)
-        s3ObjectName = "${params.applicationName}/${params.packageName}/${version}.zip"
+        def version = sh(script: "echo -n v\$(date +%Y%m%d-%H%M%S)", returnStdout: true)
+        def s3ObjectName = "${params.applicationName}/${params.packageName}/${version}.zip"
       }
     withAWS(region: 'us-east-1', credentials: 'aws-deployment-backend') {
         s3Upload(
