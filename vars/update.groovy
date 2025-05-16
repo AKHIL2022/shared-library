@@ -38,7 +38,7 @@ def call (Map params) {
         }
         dir(params.gitEnvRepoName) {
           writeFile(
-          file: versionFileName,
+          file: params.versionFileName,
           text: """\
             # Module: ${params.packageName}
             locals {
@@ -49,7 +49,7 @@ def call (Map params) {
             }
             """.stripIndent()
         )
-          sh "git add ${versionFileName}"
+          sh "git add ${params.versionFileName}"
           sh """\
           git -c \"user.name=${params.authorName}\" \
               -c \"user.email=${params.authorEmail}\" \
