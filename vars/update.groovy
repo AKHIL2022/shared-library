@@ -9,7 +9,7 @@ def call (Map params) {
       echo "email: ${params.authorEmail}"
       echo "repo: ${params.gitEnvRepoName}"                 
                        
-      steps {
+
         withCredentials([sshUserPrivateKey(credentialsId: params.gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
           sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git clone --depth=1 --branch ${params.gitEnvDevBranchName} ${params.gitEnvUrl}"
         }
@@ -64,4 +64,3 @@ def call (Map params) {
           }
         }
       }
-}
