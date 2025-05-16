@@ -15,7 +15,7 @@ def call (Map params) {
           script: "git log -n 1 --pretty=format:'%s'",
           returnStdout: true
         )
-          def gitCommitSubject = gitCommitSubject.replace('"', '\\"')
+          gitCommitSubject = gitCommitSubject.replace('"', '\\"')
           def gitCommitAuthorName = sh(
           script: "git log -n 1 --pretty=format:'%aN'",
           returnStdout: true
