@@ -1,37 +1,26 @@
 def call (Map params) {
-      echo "objectname: ${params.s3ObjectName}"
-      echo "gitkey: ${params.gitEnvRepoCredentialsId}"
-      echo "gitbranch: ${params.gitEnvDevBranchName}"
-      echo "giturl: ${params.gitEnvUrl}"
-      echo "package: ${params.packageName}"
-      echo "filename: ${params.versionFileName}"       
-      echo "author: ${params.authorName}"
-      echo "email: ${params.authorEmail}"
-      echo "repo: ${params.gitEnvRepoName}"                 
-                       
-
         withCredentials([sshUserPrivateKey(credentialsId: params.gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
           sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git clone --depth=1 --branch ${params.gitEnvDevBranchName} ${params.gitEnvUrl}"
         }
         script {
-          gitCommitHash = sh(
+          def gitCommitHash = sh(
           script: "git log -n 1 --pretty=format:'%H'",
           returnStdout: true
         )
-          gitCommitDate = sh(
+          def gitCommitDate = sh(
           script: "git log -n 1 --pretty=format:'%cI'",
           returnStdout: true
         )
-          gitCommitSubject = sh(
+          def gitCommitSubject = sh(
           script: "git log -n 1 --pretty=format:'%s'",
           returnStdout: true
         )
-          gitCommitSubject = gitCommitSubject.replace('"', '\\"')
-          gitCommitAuthorName = sh(
+          def gitCommitSubject = gitCommitSubject.replace('"', '\\"')
+          def gitCommitAuthorName = sh(
           script: "git log -n 1 --pretty=format:'%aN'",
           returnStdout: true
         )
-          gitCommitAuthorEmail = sh(
+          def gitCommitAuthorEmail = sh(
           script: "git log -n 1 --pretty=format:'%aE'",
           returnStdout: true
         )
