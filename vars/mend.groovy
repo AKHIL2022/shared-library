@@ -23,11 +23,7 @@ def call(Map params) {
             }
         }
     }
-    if (params.localFolderName ) {
-        dir(params.localFolderName ) {
-            mendScan() 
-        }
-    } else {
-        mendScan()
+    dir(params?.localFolderName ?: '.') {
+    mendScan()
     }
 }
