@@ -5,9 +5,10 @@ def call(Map params) {
         def buildStep = {
             sh 'npm run build'
         }
-
         if (params.localFolder) {
-            dir(params.localFolder, buildStep)
+            dir(params.localFolder) {
+                buildStep()
+            }
         } else {
             buildStep()
         }
