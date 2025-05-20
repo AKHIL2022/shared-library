@@ -1,5 +1,5 @@
 def call(Map params) {
-    if (hasRelevantChanges || force_build) {
+    if (params.hasRelevantChanges || params.force_build) {
         def buildStep = {
             sh 'npm run build'
         }
