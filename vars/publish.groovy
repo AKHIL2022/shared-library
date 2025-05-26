@@ -1,6 +1,5 @@
 def call(Map params) {
   def s3ObjectName
-  def componentName
   if (params.hasRelevantChanges == null || params.hasRelevantChanges || params.force_build) {
     def uploadToS3 = {
         script {
