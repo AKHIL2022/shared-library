@@ -1,5 +1,7 @@
 def call(Map params) {
   def s3ObjectName
+  def lambdaname = params.get('Lambdaname')
+  def packagename = params.get('packageName')
   def componentName = params.Lambdaname ?: params.packageName
   if (params.hasRelevantChanges == null || params.hasRelevantChanges || params.force_build) {
     def uploadToS3 = {
