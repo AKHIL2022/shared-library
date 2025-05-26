@@ -22,9 +22,6 @@ def call(Map params) {
    echo "${params.Lambdaname}"
   
     if (params.localFolderName) {
-        if (!fileExists(params.localFolderName)) {
-          error "Directory ${params.localFolderName} does not exist"
-        }
         dir(params.localFolderName) {
             uploadToS3(componentName)
         }
