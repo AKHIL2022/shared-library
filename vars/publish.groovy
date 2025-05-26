@@ -1,5 +1,6 @@
 def call(Map params) {
   def s3ObjectName
+  def componentName = params.Lambdaname ?: params.packageName
   if (params.hasRelevantChanges == null || params.hasRelevantChanges || params.force_build) {
     def uploadToS3 = {
         script {
@@ -19,7 +20,7 @@ def call(Map params) {
     } 
    echo "${params.packageName}"
    echo "${params.Lambdaname}"
-  def componentName = params.Lambdaname ?: params.packageName
+  
     if (params.localFolderName) {
         if (!fileExists(params.localFolderName)) {
           error "Directory ${params.localFolderName} does not exist"
