@@ -1,8 +1,8 @@
 def call(Map params) {
   def s3ObjectName
-  def lambdaname = params.get('Lambdaname')
-  def packagename = params.get('packageName')
-  def componentName = Lambdaname ?: packageName
+  def Lambdaname = params.get('Lambdaname')
+  def packagename = params.get('packagename')
+  def componentName = Lambdaname ?: packagename
   if (params.hasRelevantChanges == null || params.hasRelevantChanges || params.force_build) {
     def uploadToS3 = {
         script {
@@ -20,8 +20,9 @@ def call(Map params) {
         } 
       return s3ObjectName
     } 
-   echo "${params.packageName}"
+   echo "${params.packagename}"
    echo "${params.Lambdaname}"
+    echo "${componentName}"
   
     if (params.localFolderName) {
         dir(params.localFolderName) {
