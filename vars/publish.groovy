@@ -19,6 +19,7 @@ def call(Map params) {
     } 
    echo "params.localFolderName"
    echo "params.Lambdaname"
+   echo componentName
    if (params.localFolderName) {
         dir(params.localFolderName) {
             if (params.Lambdaname) {
