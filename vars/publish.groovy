@@ -20,23 +20,16 @@ def call(Map params) {
     } 
    echo "${params.localFolderName}"
    echo "${params.Lambdaname}"
-   echo componentName
-   if (params.localFolderName) {
+  def componentName = params.Lambdaname ?: params.packageName
+    if (params.localFolderName) {
+        if (!fileExists(params.localFolderName)) {
+          error "Directory ${params.localFolderName} does not exist"
+        }
         dir(params.localFolderName) {
-            if (params.Lambdaname) {
-                uploadToS3(params.Lambdaname)
-            }
-            if (params.packageName) {
-                uploadToS3(params.packageName)
-            }
+            uploadToS3(componentName)
         }
     } else {
-        if (params.Lambdaname) {
-            uploadToS3(params.Lambdaname)
-        }
-        if (params.packageName) {
-            uploadToS3(params.packageName)
-        }
+        uploadToS3(componentName)
     }
   }
 }
