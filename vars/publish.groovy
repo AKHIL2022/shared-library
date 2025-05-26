@@ -17,8 +17,8 @@ def call(Map params) {
         } 
       return s3ObjectName
     } 
-   echo "params.localFolderName"
-   echo "params.Lambdaname"
+   echo "${params.localFolderName}"
+   echo "${params.Lambdaname}"
    echo componentName
    if (params.localFolderName) {
         dir(params.localFolderName) {
