@@ -25,10 +25,10 @@ def call(Map params) {
   
     if (params.localFolderName) {
         dir(params.localFolderName) {
-            uploadToS3(componentName)
+            uploadToS3()
         }
     } else {
-        uploadToS3(componentName)
+        uploadToS3()
     }
   }
 }
