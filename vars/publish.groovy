@@ -14,7 +14,8 @@ def call(Map params) {
               bucket: params.s3BucketName,
               path: s3ObjectName
           )
-        } return s3ObjectName
+        } 
+      return s3ObjectName
     } 
 
     if (params.localFolderName) {
