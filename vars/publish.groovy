@@ -1,7 +1,8 @@
 def call(Map params) {
   def s3ObjectName
+  def componentName
   if (params.hasRelevantChanges == null || params.hasRelevantChanges || params.force_build) {
-    def uploadToS3 = { String componentName
+    def uploadToS3 = {
         script {
           def version = sh(script: "echo -n v\$(date +%Y%m%d-%H%M%S)", returnStdout: true)
           s3ObjectName = "${params.applicationName}/${componentName}/${version}.zip"
