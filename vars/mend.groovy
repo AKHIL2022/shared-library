@@ -1,5 +1,5 @@
 def call(Map params) {
-        String productName = 'HCLCODE'
+    String productName = 'HCLCODE'
     String apiKeyCredentialId = params.apiKeyCredentialId ?: 'mend-api-key'
 
     def mendScan = {
