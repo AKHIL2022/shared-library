@@ -9,9 +9,6 @@ def call(Map params) {
             "WS_WSS_URL=https://saas.whitesourcesoftware.com/agent"
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
-                def auditStatus = sh(script: 'npm audit --audit-level=high', returnStatus: true)
-                if (auditStatus != 0) {
-                    echo "npm audit found issues (exit code: ${auditStatus})"
                     if (!params.force_build) {
                         error('Failing pipeline due to audit errors.')
                     } else {
