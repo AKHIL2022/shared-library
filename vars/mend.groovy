@@ -1,9 +1,7 @@
 def call(Map params) {
-    String productName = 'HCLCODE'
+        String productName = 'HCLCODE'
     String apiKeyCredentialId = params.apiKeyCredentialId ?: 'mend-api-key'
-    echo "- Application: ${params.projectName}"
-    echo "- Directory: ${params.localFolderName}"
-    echo "- Package.json Changed: ${params.IsPackageJsonChanged}"
+
     def mendScan = {
         withEnv([
             "WS_PRODUCTNAME=${productName}",
@@ -11,19 +9,31 @@ def call(Map params) {
             "WS_WSS_URL=https://saas.whitesourcesoftware.com/agent"
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
-                echo 'Running NPM Audit, Job will fail if there are high priority issues'
+                def auditStatus = sh(script: 'npm audit --audit-level=high', returnStatus: true)
+                if (auditStatus != 0) {
+                    echo "npm audit found issues (exit code: ${auditStatus})"
+                    if (!params.force_build) {
+                        error('Failing pipeline due to audit errors.')
+                    } else {
+                        unstable("Proceeding despite audit issues")
+                    }
+                }
                 if (params.IsPackageJsonChanged == null || params.IsPackageJsonChanged) {
                     echo 'Downloading Mend Unified Agent'
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
                     echo 'Generate Mend Report'
                     sh 'java -jar wss-unified-agent.jar'
-                }else {
-                    echo 'Skipping Mend scan Package.json not changed'
+                } else {
+                    echo 'Skipping Mend scan as Package.json is not changed'
                 }
             }
         }
     }
-    dir(params?.localFolderName ?: '.') {
-    mendScan()
+    if (params.localFolderName) {
+        dir(params.localFolderName) {
+            mendScan()
+        }
+    } else {
+        mendScan()
     }
 }
