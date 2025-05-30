@@ -1,4 +1,4 @@
-def call(boolean isPackageJsonChanged, String projectName, boolean force_buid) {
+def call(String projectName, boolean isPackageJsonChanged, boolean force_buid) {
     String productName = 'HCLCODE'
     String apiKeyCredentialId = params.apiKeyCredentialId ?: 'mend-api-key'
     echo "isPackageJsonChanged: ${isPackageJsonChanged}"
