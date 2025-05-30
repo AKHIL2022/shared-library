@@ -1,7 +1,7 @@
 def call(String localFolderName) {
     def changes = []
     def build = currentBuild
-    def returnValues = []
+    String returnValues = []
     def relevant
     def isPackageJsonChanged
     def hasRelevantChanges
