@@ -1,13 +1,14 @@
-def call(boolean isPackageJsonChanged, String projectName) {
+def call(boolean isPackageJsonChanged, String projectName, boolean force_buid) {
     String productName = 'HCLCODE'
     String apiKeyCredentialId = params.apiKeyCredentialId ?: 'mend-api-key'
+    echo "isPackageJsonChanged: ${isPackageJsonChanged}"
         withEnv([
             "WS_PRODUCTNAME=${productName}",
             "WS_PROJECTNAME=${projectName}",
             "WS_WSS_URL=https://saas.whitesourcesoftware.com/agent"
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
-                    if (!params.force_build) {
+                    if (!force_build) {
                         error('Failing pipeline due to audit errors.')
                     } else {
                         unstable("Proceeding despite audit issues")
