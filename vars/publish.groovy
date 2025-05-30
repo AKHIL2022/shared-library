@@ -1,6 +1,6 @@
 def call(String applicationName, String componentName, String bundleFileName, String s3BucketName ) {
   echo "applicationName: ${applicationName}"
-  echo "packageName: ${packageName}"
+  echo "componentName: ${componentName}"
   echo "bundleFileName: ${bundleFileName}"
   echo "s3BucketName: ${s3BucketName}"
   def s3ObjectName
