@@ -1,5 +1,3 @@
 def call() {
-        def buildStep = {
-            sh 'npm run build'
-        }
+    sh 'npm run build'
 }
