@@ -1,11 +1,11 @@
-def call(Map params) {
+def call(Boolean IsPackageJsonChanged, String projectName) {
     String productName = 'HCLCODE'
     String apiKeyCredentialId = params.apiKeyCredentialId ?: 'mend-api-key'
 
     def mendScan = {
         withEnv([
             "WS_PRODUCTNAME=${productName}",
-            "WS_PROJECTNAME=${params.projectName}",
+            "WS_PROJECTNAME=${projectName}",
             "WS_WSS_URL=https://saas.whitesourcesoftware.com/agent"
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
@@ -15,7 +15,7 @@ def call(Map params) {
                         unstable("Proceeding despite audit issues")
                     }
                 }
-                if (params.IsPackageJsonChanged) {
+                if (IsPackageJsonChanged) {
                     echo 'Downloading Mend Unified Agent'
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
                     echo 'Generate Mend Report'
