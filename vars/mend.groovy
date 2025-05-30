@@ -21,7 +21,7 @@ def call(Map params) {
                     echo 'Generate Mend Report'
                     sh 'java -jar wss-unified-agent.jar'
                 } else {
-                    echo 'Skipping Mend scan as Package.json is not changed'
+                    unstable("Skipping Mend scan as Package.json is not changed")
                 }
             }
         }
