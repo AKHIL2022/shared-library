@@ -1,6 +1,7 @@
-def call (Map params) {
-        withCredentials([sshUserPrivateKey(credentialsId: params.gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
-          sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git clone --depth=1 --branch ${params.gitEnvDevBranchName} ${params.gitEnvUrl}"
+def call (String gitEnvDevBranchName, String gitEnvRepoCredentialsId, String gitEnvUrl, String gitEnvRepoName, String packageName, String s3BucketName, 
+          String s3ObjectName, String versionFileName, String authorEmail, String authorName ) {
+        withCredentials([sshUserPrivateKey(credentialsId: gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
+          sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git clone --depth=1 --branch ${gitEnvDevBranchName} ${gitEnvUrl}"
         }
         script {
           def gitCommitHash = sh(
@@ -25,30 +26,30 @@ def call (Map params) {
           returnStdout: true
         )
         }
-        dir(params.gitEnvRepoName) {
+        dir(gitEnvRepoName) {
           writeFile(
-          file: params.versionFileName,
+          file: versionFileName,
           text: """\
-            # Module: ${params.packageName}
+            # Module: ${packageName}
             locals {
-              ${params.packageName}_commitHash = "${gitCommitHash}"
-              ${params.packageName}_commitDate = "${gitCommitDate}"
-              ${params.packageName}_bucketName = "${params.s3BucketName}"
-              ${params.packageName}_objectName = "${params.s3ObjectName}"
+              ${packageName}_commitHash = "${gitCommitHash}"
+              ${packageName}_commitDate = "${gitCommitDate}"
+              ${packageName}_bucketName = "${s3BucketName}"
+              ${packageName}_objectName = "${s3ObjectName}"
             }
             """.stripIndent()
         )
-          sh "git add ${params.versionFileName}"
+          sh "git add ${versionFileName}"
           sh """\
-          git -c \"user.name=${params.authorName}\" \
-              -c \"user.email=${params.authorEmail}\" \
-              commit -m \"${gitCommitSubject} (${params.packageName})\" \
+          git -c \"user.name=${authorName}\" \
+              -c \"user.email=${authorEmail}\" \
+              commit -m \"${gitCommitSubject} (${packageName})\" \
               --author=\"${gitCommitAuthorName} <${gitCommitAuthorEmail}>\"
           """.stripIndent()
           retry(3) {
-            withCredentials([sshUserPrivateKey(credentialsId: params.gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
-              sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git -c \"user.name=${params.authorName}\" -c \"user.email=${params.authorEmail}\" pull --rebase origin refs/heads/${params.gitEnvDevBranchName}"
-              sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git push origin HEAD:refs/heads/${params.gitEnvDevBranchName}"
+            withCredentials([sshUserPrivateKey(credentialsId: gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
+              sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git -c \"user.name=${authorName}\" -c \"user.email=${authorEmail}\" pull --rebase origin refs/heads/${gitEnvDevBranchName}"
+              sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git push origin HEAD:refs/heads/${gitEnvDevBranchName}"
             }
           }
         }
