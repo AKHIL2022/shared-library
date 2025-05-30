@@ -1,6 +1,9 @@
 def call(String applicationName, String componentName, String bundleFileName, String s3BucketName ) {
+  echo "applicationName: ${applicationName}"
+  echo "packageName: ${packageName}"
+  echo "bundleFileName: ${bundleFileName}"
+  echo "s3BucketName: ${s3BucketName}"
   def s3ObjectName
-    def uploadToS3 = {
         script {
           def version = sh(script: "echo -n v\$(date +%Y%m%d-%H%M%S)", returnStdout: true)
           s3ObjectName = "${applicationName}/${componentName}/${version}.zip"
@@ -15,5 +18,4 @@ def call(String applicationName, String componentName, String bundleFileName, St
           )
         } 
       return s3ObjectName
-    } 
 }
