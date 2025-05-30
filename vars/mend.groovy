@@ -9,7 +9,7 @@
             "WS_WSS_URL=https://saas.whitesourcesoftware.com/agent"
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
-                    if (!params.continue_on_audit_fail) {
+                    if (!force_buid) {
                         error('Failing pipeline due to audit errors.')
                     } else {
                         unstable("Proceeding despite audit issues.")
