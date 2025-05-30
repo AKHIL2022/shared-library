@@ -1,8 +1,7 @@
    def call(String projectName, boolean isPackageJsonChanged, boolean force_buid) {
     String productName = 'HCLCODE'
     String apiKeyCredentialId = params.apiKeyCredentialId ?: 'mend-api-key'
-       
-    def mendScan = {
+      
         withEnv([
             "WS_PRODUCTNAME=${productName}",
             "WS_PROJECTNAME=${projectName}",
@@ -24,7 +23,4 @@
                 }
             }
         }
-    } 
-    mendScan()
-  
 }
