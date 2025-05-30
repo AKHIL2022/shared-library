@@ -15,7 +15,7 @@ def call(Map params) {
                         unstable("Proceeding despite audit issues")
                     }
                 }
-                if (params.IsPackageJsonChanged == null || params.IsPackageJsonChanged) {
+                if (params.IsPackageJsonChanged) {
                     echo 'Downloading Mend Unified Agent'
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
                     echo 'Generate Mend Report'
@@ -26,11 +26,3 @@ def call(Map params) {
             }
         }
     }
-    if (params.localFolderName) {
-        dir(params.localFolderName) {
-            mendScan()
-        }
-    } else {
-        mendScan()
-    }
-}
