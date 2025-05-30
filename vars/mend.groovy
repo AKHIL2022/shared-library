@@ -13,7 +13,7 @@ def call(boolean isPackageJsonChanged, String projectName) {
                         unstable("Proceeding despite audit issues")
                     }
                 }
-                if (IsPackageJsonChanged) {
+                if (isPackageJsonChanged) {
                     echo 'Downloading Mend Unified Agent'
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
                     echo 'Generate Mend Report'
