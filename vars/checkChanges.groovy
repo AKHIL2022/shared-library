@@ -29,7 +29,7 @@ def call(String localFolderName) {
         !(element ==~ /.*\.test\.js/)
     }
     isPackageJsonChanged = relevant.any { element ->
-        element ==~ /.*package-lock\.json/
+        element ==~ /.*package\.json/
     }
     hasRelevantChanges = !relevant.isEmpty()
     if (hasRelevantChanges) {
