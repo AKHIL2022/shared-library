@@ -1,4 +1,4 @@
-   def call(String projectName, Boolean isPackageJsonChanged , Boolean forceBuild) {
+   def call(String projectName, boolean isPackageJsonChanged , boolean forceBuild) {
     String productName = 'HCLCODE'
     String apiKeyCredentialId = params.apiKeyCredentialId ?: 'mend-api-key'
       
