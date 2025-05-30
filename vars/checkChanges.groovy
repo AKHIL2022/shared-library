@@ -39,6 +39,7 @@ def call(String localFolderName) {
     }
     returnValues.addAll([isPackageJsonChanged, hasRelevantChanges])
     return returnValues
+    echo "returnValues: ${returnValues}"
     echo "isPackageJsonChanged: ${isPackageJsonChanged}"
     echo "hasRelevantChanges: ${hasRelevantChanges}"
 }
