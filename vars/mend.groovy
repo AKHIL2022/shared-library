@@ -6,9 +6,10 @@ def call(String projectName, isPackageJsonChanged, force_buid) {
         withEnv([
             "WS_PRODUCTNAME=${productName}",
             "WS_PROJECTNAME=${projectName}",
-            "WS_WSS_URL=https://saas.whitesourcesoftware.com/agent"
-        ]) {
-            withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
+            "WS_WSS_URL=https://saas.whitesourcesoftware.com/agent",
+            "WS_APIKEY = credentials('mend-api-key')"
+        ])
+          withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
                     if (!force_build) {
                         error('Failing pipeline due to audit errors.')
                     } else {
@@ -24,4 +25,3 @@ def call(String projectName, isPackageJsonChanged, force_buid) {
                     echp "Skipping Mend scan as Package.json is not changed"
                 }
             }
-        }
