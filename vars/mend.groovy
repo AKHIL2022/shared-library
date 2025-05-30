@@ -13,6 +13,7 @@
                     } else {
                         unstable("Proceeding despite audit issues.")
                     }
+               echo "isPackageJsonChanged: ${isPackageJsonChanged}"
                 if (isPackageJsonChanged) {
                     echo 'Downloading Mend Unified Agent'
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
