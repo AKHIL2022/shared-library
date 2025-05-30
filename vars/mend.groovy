@@ -1,6 +1,6 @@
 def call(String projectName, isPackageJsonChanged, force_buid) {
     String productName = 'HCLCODE'
-    String apiKeyCredentialId = apiKeyCredentialId ?: 'mend-api-key'
+    String apiKeyCredentialId = params.apiKeyCredentialId ?: 'mend-api-key'
     echo "isPackageJsonChanged: ${isPackageJsonChanged}"
     echo "force_build: ${force_build}"
         withEnv([
