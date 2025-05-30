@@ -1,4 +1,4 @@
-   def call(String projectName, isPackageJsonChanged, force_buid) {
+   def call(String projectName, boolean jsonChanged, boolean build) {
     String productName = 'HCLCODE'
     String apiKeyCredentialId = params.apiKeyCredentialId ?: 'mend-api-key'
       
@@ -8,12 +8,12 @@
             "WS_WSS_URL=https://saas.whitesourcesoftware.com/agent"
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
-                    if (!force_buid) {
+                    if (!build) {
                         error('Failing pipeline due to audit errors.')
                     } else {
                         unstable("Proceeding despite audit issues.")
                     }
-                if (isPackageJsonChanged) {
+                if (jsonChanged) {
                     echo 'Downloading Mend Unified Agent'
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
                     echo 'Generate Mend Report'
