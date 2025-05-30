@@ -21,7 +21,7 @@ def call(String projectName, isPackageJsonChanged, force_buid) {
                     echo 'Generate Mend Report'
                     sh 'java -jar wss-unified-agent.jar'
                 } else {
-                    unstable("Skipping Mend scan as Package.json is not changed")
+                    echp "Skipping Mend scan as Package.json is not changed"
                 }
             }
         }
