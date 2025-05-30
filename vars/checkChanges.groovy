@@ -1,10 +1,10 @@
 def call(String localFolderName) {
     def changes = []
     def build = currentBuild
-    String returnValues = []
+    def returnValues = []
     def relevant
-    boolean isPackageJsonChanged
-    boolean hasRelevantChanges
+    def isPackageJsonChanged
+    def hasRelevantChanges
     while (build != null && build.result != 'SUCCESS') {
         for (changeLog in build.changeSets) {
             for (entry in changeLog.items) {
