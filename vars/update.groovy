@@ -5,24 +5,24 @@ def call (String packageName, String s3BucketName, String gitEnvDevBranchName, S
           sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git clone --depth=1 --branch ${gitEnvDevBranchName} ${gitEnvUrl}"
         }
         script {
-          def gitCommitHash = sh(
+          gitCommitHash = sh(
           script: "git log -n 1 --pretty=format:'%H'",
           returnStdout: true
         )
-          def gitCommitDate = sh(
+          gitCommitDate = sh(
           script: "git log -n 1 --pretty=format:'%cI'",
           returnStdout: true
         )
-          def gitCommitSubject = sh(
+          gitCommitSubject = sh(
           script: "git log -n 1 --pretty=format:'%s'",
           returnStdout: true
         )
           gitCommitSubject = gitCommitSubject.replace('"', '\\"')
-          def gitCommitAuthorName = sh(
+          gitCommitAuthorName = sh(
           script: "git log -n 1 --pretty=format:'%aN'",
           returnStdout: true
         )
-          def gitCommitAuthorEmail = sh(
+          gitCommitAuthorEmail = sh(
           script: "git log -n 1 --pretty=format:'%aE'",
           returnStdout: true
         )
