@@ -2,8 +2,8 @@ def call(String localFolderName) {
     def changes = []
     def build = currentBuild
     def relevant = []
-    def isPackageJsonChanged = false
-    def hasRelevantChanges = false
+    def isPackageJsonChanged
+    def hasRelevantChanges
 
     while (build != null && build.result != 'SUCCESS') {
         for (changeLog in build.changeSets) {
@@ -41,7 +41,7 @@ def call(String localFolderName) {
         echo "There are no changes that would affect the deployment"
     }
 
-    def returnValues = [isPackageJsonChanged.toString(), hasRelevantChanges.toString()]
+    def returnValues = [isPackageJsonChanged, hasRelevantChanges]
     echo "returnValues: ${returnValues}"
     return returnValues
 }
