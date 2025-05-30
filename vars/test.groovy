@@ -1,4 +1,4 @@
-def call(Map params) {
+def call() {
         def buildStep = {
             sh 'npm run build'
         }
