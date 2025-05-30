@@ -1,4 +1,4 @@
-def call(boolean IsPackageJsonChanged, String projectName) {
+def call(boolean isPackageJsonChanged, String projectName) {
     String productName = 'HCLCODE'
     String apiKeyCredentialId = params.apiKeyCredentialId ?: 'mend-api-key'
         withEnv([
