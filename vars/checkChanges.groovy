@@ -37,8 +37,9 @@ def call(String localFolderName) {
     } else {
         echo 'There are no changes that would affect the deployment'
     }
-    returnValues.addAll([isPackageJsonChanged.toString(), hasRelevantChanges.toString()])
-    echo "isPackageJsonChanged: ${isPackageJsonChanged}"
-    echo "hasRelevantChanges: ${hasRelevantChanges}"
+    def returnValues = [
+        isPackageJsonChanged: isPackageJsonChanged.toString(),
+        hasRelevantChanges: hasRelevantChanges.toString()
+    ]
     return returnValues
 }
