@@ -6,8 +6,7 @@ def call(String projectName, isPackageJsonChanged, force_buid) {
         withEnv([
             "WS_PRODUCTNAME=${productName}",
             "WS_PROJECTNAME=${projectName}",
-            "WS_WSS_URL=https://saas.whitesourcesoftware.com/agent",
-            "WS_APIKEY=credentials('mend-api-key')"
+            "WS_WSS_URL=https://saas.whitesourcesoftware.com/agent"
         ]){
           withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
                     if (!force_build) {
@@ -22,7 +21,7 @@ def call(String projectName, isPackageJsonChanged, force_buid) {
                     echo 'Generate Mend Report'
                     sh 'java -jar wss-unified-agent.jar'
                 } else {
-                    echp "Skipping Mend scan as Package.json is not changed"
+                    echo "Skipping Mend scan as Package.json is not changed"
                 }
             }
 }
