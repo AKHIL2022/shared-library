@@ -1,5 +1,6 @@
 def call (String packageName, String s3BucketName, String gitEnvDevBranchName, String versionFileName, String authorName, String authorEmail, 
           String gitEnvRepoCredentialsId, String s3ObjectName, String gitEnvUrl, String gitEnvRepoName) {
+     def gitCommitHash, gitCommitDate, gitCommitSubject, gitCommitAuthorName, gitCommitAuthorEmail
         withCredentials([sshUserPrivateKey(credentialsId: gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
           sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git clone --depth=1 --branch ${gitEnvDevBranchName} ${gitEnvUrl}"
         }
