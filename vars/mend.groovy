@@ -23,5 +23,5 @@
                     echo 'Skipping Mend scan as Package.json is not changed'
                 }
             }
-        }
+        } deleteDir()
 }
