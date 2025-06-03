@@ -1,4 +1,5 @@
 def call(String localFolderName) {
+    echo "${localFolderName}"
     def changes = []
     def build = currentBuild
     def relevant = []
@@ -40,7 +41,6 @@ def call(String localFolderName) {
     } else {
         echo "There are no changes that would affect the deployment"
     }
-    hasRelevantChanges = true
 
     def returnValues = [isPackageJsonChanged, hasRelevantChanges]
     echo "returnValues: ${returnValues}"
