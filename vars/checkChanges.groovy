@@ -1,4 +1,5 @@
 def call(String localFolderName) {
+    echo "${localFolderName}"
     def changes = []
     def returnValues = []
     def build = currentBuild
