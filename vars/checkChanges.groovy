@@ -23,7 +23,7 @@ def call(String localFolderName) {
     echo "Changed since last successful build: ${changes.isEmpty() ? 'none' : changes.join(', \n')}"
     relevant = changes.findAll { element ->
         // Include changes to our localFolderPath
-        element ==~ /\Q$localFolderName\E\/.*/
+        element ==~ localFolderName == "" ? ".* : /\Q$localFolderName\E\/.*/
     }
     relevant = relevant.findAll { element ->
         // Ignore changes to *.test.js files
