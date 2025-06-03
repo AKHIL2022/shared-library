@@ -1,5 +1,4 @@
-def call() {
-    echo "localFolderName: ${env.localFolderName}"
+def call(String localFolderName) {
     def changes = []
     def returnValues = []
     def build = currentBuild
@@ -16,14 +15,14 @@ def call() {
         }
         build = build.previousBuild
         if (!build) {
-            changes = ["${env.localFolderName}/*"]
+            changes = ["${localFolderName}/*"]
         }
     }
     changes.unique().sort()
     echo "Changed since last successful build: ${changes.isEmpty() ? 'none' : changes.join(', \n')}"
     relevant = changes.findAll { element ->
         // Include changes to our localFolderPath
-        element ==~ /\Q$env.localFolderName\E\/.*/
+        element ==~ /\Q$localFolderName\E\/.*/
     }
     relevant = relevant.findAll { element ->
         // Ignore changes to *.test.js files
