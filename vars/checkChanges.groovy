@@ -6,10 +6,6 @@ def call(String localFolderName) {
     def isPackageJsonChanged
     def hasRelevantChanges
 
-    // Normalize localFolderName
-    if (localFolderName == './' || localFolderName == '.') {
-        localFolderName = ''
-    }
    // Collect changes only from the current build
     if (build.changeSets.isEmpty()) {
         echo "No changes detected in current build ${build.id}"
