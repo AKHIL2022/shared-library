@@ -9,10 +9,10 @@ def call(String localFolderName) {
     if (localFolderName == './' || localFolderName == '.') {
         localFolderName = ''
     }
-    echo "Using localFolderName: '${localFolderName}'"
-
-    // Collect changes since last successful build
-    while (build != null && build.result != 'SUCCESS') {
+   // Collect changes only from the current build
+    if (build.changeSets.isEmpty()) {
+        echo "No changes detected in current build ${build.id}"
+    } else {
         for (changeLog in build.changeSets) {
             for (entry in changeLog.items) {
                 for (file in entry.affectedFiles) {
@@ -20,14 +20,16 @@ def call(String localFolderName) {
                 }
             }
         }
-        build = build.previousBuild
-        if (!build) {
-            changes = ["${localFolderName == '' ? '' : localFolderName + '/'}package.json"]
-        }
+    }
+
+    // Fallback for no changes or no prior successful build
+    if (changes.isEmpty() && !build.previousBuild) {
+        echo "No prior builds and no changes, assuming package.json changed"
+        changes = ["${localFolderName == '' ? '' : localFolderName + '/'}package.json"]
     }
 
     changes = changes.unique().sort()
-    echo "Changes since last successful build: ${changes.isEmpty() ? 'none' : changes.join(', ')}"
+    echo "Changes in current build: ${changes.isEmpty() ? 'none' : changes.join(', ')}"
 
     // Filter relevant changes
     if (localFolderName == '') {
