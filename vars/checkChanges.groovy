@@ -1,15 +1,11 @@
-def call(String localFolderName) {
-    echo "${localFolderName}"
+def call() {
     def changes = []
+    def returnValues = []
     def build = currentBuild
-    def relevant = []
+    def relevant
     def isPackageJsonChanged
     def hasRelevantChanges
-
-   // Collect changes only from the current build
-    if (build.changeSets.isEmpty()) {
-        echo "No changes detected in current build ${build.id}"
-    } else {
+    while (build != null && build.result != 'SUCCESS') {
         for (changeLog in build.changeSets) {
             for (entry in changeLog.items) {
                 for (file in entry.affectedFiles) {
@@ -17,37 +13,30 @@ def call(String localFolderName) {
                 }
             }
         }
+        build = build.previousBuild
+        if (!build) {
+            changes = ["${localFolderName}/*"]
+        }
     }
-
-    // Fallback for no changes or no prior successful build
-    if (changes.isEmpty() && !build.previousBuild) {
-        echo "No prior builds and no changes, assuming package.json changed"
-        changes = ["${localFolderName == '' ? '' : localFolderName + '/'}package.json"]
+    changes.unique().sort()
+    echo "Changed since last successful build: ${changes.isEmpty() ? 'none' : changes.join(', \n')}"
+    relevant = changes.findAll { element ->
+        // Include changes to our localFolderPath
+        element ==~ /\Q$localFolderName\E\/.*/
     }
-
-    changes = changes.unique().sort()
-    echo "Changes in current build: ${changes.isEmpty() ? 'none' : changes.join(', ')}"
-
-    // Filter relevant changes
-    if (localFolderName == '') {
-        relevant = changes.findAll { !(it ==~ /.*\.test\.js/) }
-    } else {
-        relevant = changes.findAll { it ==~ /\Q${localFolderName}\E\/.*/ && !(it ==~ /.*\.test\.js/) }
+    relevant = relevant.findAll { element ->
+        // Ignore changes to *.test.js files
+        !(element ==~ /.*\.test\.js/)
     }
-
-    echo "Relevant changes: ${relevant.isEmpty() ? 'none' : relevant.join(', ')}"
-
-    // Check for package.json
-    isPackageJsonChanged = relevant.any { it ==~ /.*\/?package\.json/ }
+    isPackageJsonChanged = relevant.any { element ->
+        element ==~ /.*package-lock\.json/
+    }
     hasRelevantChanges = !relevant.isEmpty()
-
     if (hasRelevantChanges) {
         echo "There are changes that affect the deployment: ${relevant.join(', ')}"
     } else {
-        echo "There are no changes that would affect the deployment"
+        echo 'There are no changes that would affect the deployment'
     }
-
-    def returnValues = [isPackageJsonChanged, hasRelevantChanges]
-    echo "returnValues: ${returnValues}"
+    returnValues.addAll([isPackageJsonChanged, hasRelevantChanges])
     return returnValues
 }
