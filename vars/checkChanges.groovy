@@ -21,6 +21,11 @@ def call(String localFolderName) {
     }
     changes.unique().sort()
     echo "Changed since last successful build: ${changes.isEmpty() ? 'none' : changes.join(', \n')}"
+
+    // Log the regex pattern for debugging
+    def regexPattern = localFolderName == "" ? /.*$/ : /\Q${localFolderName}\E\/.*/
+    echo "Using regex pattern: ${regexPattern}"
+    
     relevant = changes.findAll { element ->
         // Include changes to our localFolderPath
        element ==~ (localFolderName == "" ? /.*$/ : /\Q${localFolderName}\E\/.*/)
