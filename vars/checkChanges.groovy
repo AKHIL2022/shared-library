@@ -1,4 +1,4 @@
-def call(String localFolderName) {
+def call() {
     echo "localFolderName: ${env.localFolderName}"
     def changes = []
     def returnValues = []
