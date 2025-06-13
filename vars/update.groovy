@@ -1,34 +1,49 @@
-def call (String packageName, String s3BucketName, String gitEnvDevBranchName, String versionFileName, String authorName, String authorEmail, 
-          String gitEnvRepoCredentialsId, String s3ObjectName, String gitEnvUrl, String gitEnvRepoName) {
-     def gitCommitHash, gitCommitDate, gitCommitSubject, gitCommitAuthorName, gitCommitAuthorEmail
-        withCredentials([sshUserPrivateKey(credentialsId: gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
-          sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git clone --depth=1 --branch ${gitEnvDevBranchName} ${gitEnvUrl}"
-        }
-        script {
-          gitCommitHash = sh(
+def call (String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitEnvUrl, String gitEnvRepoName,
+          String versionFileName, String packageName, String s3ObjectName, String applicationName) {
+  String s3BucketName = 'tf-test-1'
+  String authorName = 'Jenkins Build'
+  String authorEmail = 'build@example.com'
+  String gitEnvFolderName = "${applicationName}-deployment"
+  String gitCommitHash, gitCommitDate, gitCommitSubject, gitCommitAuthorName, gitCommitAuthorEmail
+  echo "${gitEnvFolderName}"
+  echo "${authorName}"
+  echo "${authorEmail}"
+  echo "${s3BucketName}"        
+          
+
+  withCredentials([sshUserPrivateKey(credentialsId: gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
+    sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git clone --depth=1 --branch ${gitEnvDevBranchName} ${gitEnvUrl} ${gitEnvFolderName}"
+  }
+  script {
+    gitCommitHash = sh(
           script: "git log -n 1 --pretty=format:'%H'",
           returnStdout: true
-        )
-          gitCommitDate = sh(
+          ).trim()
+    gitCommitDate = sh(
           script: "git log -n 1 --pretty=format:'%cI'",
           returnStdout: true
-        )
-          gitCommitSubject = sh(
+          ).trim()
+    gitCommitSubject = sh(
           script: "git log -n 1 --pretty=format:'%s'",
           returnStdout: true
-        )
-          gitCommitSubject = gitCommitSubject.replace('"', '\\"')
-          gitCommitAuthorName = sh(
+          ).trim()
+    gitCommitSubject = gitCommitSubject.replace('"', '\\"')
+    gitCommitAuthorName = sh(
           script: "git log -n 1 --pretty=format:'%aN'",
           returnStdout: true
-        )
-          gitCommitAuthorEmail = sh(
+          ).trim()
+    gitCommitAuthorEmail = sh(
           script: "git log -n 1 --pretty=format:'%aE'",
           returnStdout: true
-        )
-        }
-        dir(gitEnvRepoName) {
-          writeFile(
+         ).trim()
+  }
+          echo "${gitCommitHash}"
+          echo "${gitCommitDate}"
+          echo "${gitCommitSubject}"
+          echo "${gitCommitAuthorName}"
+          echo "${gitCommitAuthorEmail}"
+  dir(gitEnvFolderName) {
+    writeFile(
           file: versionFileName,
           text: """\
             # Module: ${packageName}
@@ -39,19 +54,19 @@ def call (String packageName, String s3BucketName, String gitEnvDevBranchName, S
               ${packageName}_objectName = "${s3ObjectName}"
             }
             """.stripIndent()
-        )
-          sh "git add ${versionFileName}"
-          sh """\
+          )
+    sh "git add ${versionFileName}"
+    sh """\
           git -c \"user.name=${authorName}\" \
               -c \"user.email=${authorEmail}\" \
               commit -m \"${gitCommitSubject} (${packageName})\" \
               --author=\"${gitCommitAuthorName} <${gitCommitAuthorEmail}>\"
           """.stripIndent()
-          retry(3) {
-            withCredentials([sshUserPrivateKey(credentialsId: gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
-              sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git -c \"user.name=${authorName}\" -c \"user.email=${authorEmail}\" pull --rebase origin refs/heads/${gitEnvDevBranchName}"
-              sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git push origin HEAD:refs/heads/${gitEnvDevBranchName}"
-            }
-          }
-        }
+    retry(3) {
+      withCredentials([sshUserPrivateKey(credentialsId: gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
+        sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git -c \"user.name=${authorName}\" -c \"user.email=${authorEmail}\" pull --rebase origin refs/heads/${gitEnvDevBranchName}"
+        sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git push origin HEAD:refs/heads/${gitEnvDevBranchName}"
       }
+    }
+  }
+}
