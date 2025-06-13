@@ -1,8 +1,4 @@
 def call(String applicationName, String componentName, String bundleFileName, String s3BucketName ) {
-  echo "applicationName: ${applicationName}"
-  echo "componentName: ${componentName}"
-  echo "bundleFileName: ${bundleFileName}"
-  echo "s3BucketName: ${s3BucketName}"
   def s3ObjectName
         script {
           def version = sh(script: "echo -n v\$(date +%Y%m%d-%H%M%S)", returnStdout: true)
