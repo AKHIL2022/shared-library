@@ -1,4 +1,4 @@
-def call (String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitEnvUrl, String gitEnvRepoName,
+def call (String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitEnvUrl,
           String versionFileName, String packageName, String s3ObjectName, String applicationName) {
   String s3BucketName = 'tf-test-1'
   String authorName = 'Jenkins Build'
