@@ -1,4 +1,4 @@
-                    def checkChanges(String localFolderName) {
+                    def call(String localFolderName) {
                         def changes = []
                         def build = currentBuild
                         def relevant
