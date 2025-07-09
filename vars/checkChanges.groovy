@@ -1,7 +1,3 @@
-        stage('Check Changes') {
-            steps {
-                script {
-                    // Define the function within the pipeline
                     def checkChanges(String localFolderName) {
                         def changes = []
                         def build = currentBuild
@@ -42,6 +38,3 @@
                         }
                         return [isPackageJsonChanged, hasRelevantChanges]
                     }
-                }
-            }
-        }
