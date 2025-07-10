@@ -3,7 +3,7 @@ def call(String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitE
   String s3BucketName = 'tf-test-1'
   String authorName = 'Jenkins Build'
   String authorEmail = 'build@example.com'
-  String gitEnvFolderName = "floward-exercise-91"
+  String gitEnvFolderName = "floward-exercise-deployment-92"
   String gitCommitHash, gitCommitDate, gitCommitSubject, gitCommitAuthorName, gitCommitAuthorEmail
   echo "${gitEnvFolderName}"
   echo "${authorName}"
