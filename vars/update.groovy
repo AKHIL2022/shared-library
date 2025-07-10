@@ -3,7 +3,7 @@ def call(String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitE
   String s3BucketName = 'tf-test-1'
   String authorName = 'Jenkins Build'
   String authorEmail = 'build@example.com'
-  String gitEnvFolderName = "floward-exercise-deployment-93"
+  String gitEnvFolderName = "floward-exercise-deployment-94"
   String gitCommitHash, gitCommitDate, gitCommitSubject, gitCommitAuthorName, gitCommitAuthorEmail      
 
     withCredentials([sshUserPrivateKey(credentialsId: gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
