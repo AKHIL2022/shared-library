@@ -4,11 +4,7 @@ def call(String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitE
   String authorName = 'Jenkins Build'
   String authorEmail = 'build@example.com'
   String gitEnvFolderName = "floward-exercise-deployment-93"
-  String gitCommitHash, gitCommitDate, gitCommitSubject, gitCommitAuthorName, gitCommitAuthorEmail
-  echo "${gitEnvFolderName}"
-  echo "${authorName}"
-  echo "${authorEmail}"
-  echo "${s3BucketName}"        
+  String gitCommitHash, gitCommitDate, gitCommitSubject, gitCommitAuthorName, gitCommitAuthorEmail      
 
     withCredentials([sshUserPrivateKey(credentialsId: gitEnvRepoCredentialsId, keyFileVariable: 'SSH_KEY')]) {
         sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git clone --depth=1 --branch ${gitEnvDevBranchName} ${gitEnvUrl}"
@@ -53,7 +49,7 @@ def call(String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitE
                 ${lamdaName}_objectName = "${s3ObjectName}"
               }
               """.stripIndent()
-        } else {
+        } else if (buildType == 'moduleBuild'){
             localsContent = """\
               # Lambda: ${lamdaName}
               # Branch: ${GIT_BRANCH.replaceFirst('.+?/', '')}
