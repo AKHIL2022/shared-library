@@ -44,18 +44,18 @@ def call(String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitE
         def localsContent
         if (localsFormat == 'lambdaPrefixed') {
             localsContent = """\
-              # Lambda: ${lambdaName}
+              # Lambda: ${lamdaName}
               # Branch: ${GIT_BRANCH.replaceFirst('.+?/', '')}
               locals {
-                ${lambdaName}_commitHash = "${gitCommitHash}"
-                ${lambdaName}_commitDate = "${gitCommitDate}"
-                ${lambdaName}_bucketName = "${s3BucketName}"
-                ${lambdaName}_objectName = "${s3ObjectName}"
+                ${lamdaName}_commitHash = "${gitCommitHash}"
+                ${lamdaName}_commitDate = "${gitCommitDate}"
+                ${lamdaName}_bucketName = "${s3BucketName}"
+                ${lamdaName}_objectName = "${s3ObjectName}"
               }
               """.stripIndent()
         } else {
             localsContent = """\
-              # Lambda: ${lambdaName}
+              # Lambda: ${lamdaName}
               # Branch: ${GIT_BRANCH.replaceFirst('.+?/', '')}
               locals {
                 function_src_commit_url = "${gitRepo}/${localFolderName}"
@@ -74,7 +74,7 @@ def call(String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitE
         sh """\
             git -c \"user.name=${authorName}\" \
                 -c \"user.email=${authorEmail}\" \
-                commit -m \"${gitCommitSubject} (${lambdaName})\" \
+                commit -m \"${gitCommitSubject} (${lamdaName})\" \
                 --author=\"${gitCommitAuthorName} <${gitCommitAuthorEmail}>\"
             """.stripIndent()
         retry(3) {
