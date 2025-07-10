@@ -42,7 +42,7 @@ def call(String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitE
     }
     dir(gitEnvFolderName) {
         def localsContent
-        if (localsFormat == 'lamdaPrefixed') {
+        if (localsFormat == 'lamdaBuild') {
             localsContent = """\
               # Lambda: ${lamdaName}
               # Branch: ${GIT_BRANCH.replaceFirst('.+?/', '')}
