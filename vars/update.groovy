@@ -49,7 +49,7 @@ def call(String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitE
                 ${lamdaName}_objectName = "${s3ObjectName}"
               }
               """.stripIndent()
-        } else if (buildType == 'moduleBuild'){
+        } else if (localsFormat == 'moduleBuild'){
             localsContent = """\
               # Lambda: ${lamdaName}
               # Branch: ${GIT_BRANCH.replaceFirst('.+?/', '')}
