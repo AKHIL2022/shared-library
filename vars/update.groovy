@@ -5,7 +5,6 @@ def call(String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitE
   String authorEmail = 'build@example.com'
   String gitEnvFolderName = "floward-exercise-deployment-94"
   String gitCommitHash, gitCommitDate, gitCommitSubject, gitCommitAuthorName, gitCommitAuthorEmail      
-
     withCredentials([sshUserPrivateKey(credentialsId: 'github-jenkins', keyFileVariable: 'SSH_KEY')]) {
         sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git clone --depth=1 --branch ${gitEnvDevBranchName} ${gitEnvUrl}"
     }
