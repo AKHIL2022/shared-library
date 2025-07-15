@@ -8,7 +8,7 @@ def call(String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitE
     withCredentials([sshUserPrivateKey(credentialsId: 'github-jenkins', keyFileVariable: 'SSH_KEY')]) {
         sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git clone --depth=1 --branch ${gitEnvDevBranchName} ${gitEnvUrl}"
     }
-    script {
+     script {
         gitRepo = sh(
             script: 'git ls-remote --get-url origin',
             returnStdout: true
