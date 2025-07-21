@@ -1,5 +1,3 @@
-def call(String dir ='.') {
-    dir(dir) {
+def call() {
     sh 'npm run build'
    }
-}
