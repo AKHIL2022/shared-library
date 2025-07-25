@@ -1,4 +1,8 @@
                     def call(String localFolderName) {
+                        String dynamodbLocalDir = env.DYNAMODB_LOCAL_DIR
+                        String dynamodbLocalPort = env.DYNAMODB_LOCAL_PORT
+                        echo "$dynamodbLocalDir"
+                        echo "$dynamodbLocalPort"
                         def changes = []
                         def build = currentBuild
                         def relevant
