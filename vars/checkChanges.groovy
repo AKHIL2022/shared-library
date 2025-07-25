@@ -1,9 +1,10 @@
                     def call(String localFolderName) {
                         String dynamodbLocalDir = env.DYNAMODB_LOCAL_DIR
                         String dynamodbLocalPort = env.DYNAMODB_LOCAL_PORT
-                        String ccoverage = env.COVERAGE_THRESHOLD 
+                        String coverage = env.COVERAGE_THRESHOLD 
                         echo "$dynamodbLocalDir"
                         echo "$dynamodbLocalPort"
+                        echo "$coverage"
                         def changes = []
                         def build = currentBuild
                         def relevant
