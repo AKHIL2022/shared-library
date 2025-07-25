@@ -1,4 +1,4 @@
-                    def call(String localFolderName) {
+                    def call() {
                         String dynamodbLocalDir = env.DYNAMODB_LOCAL_DIR
                         String dynamodbLocalPort = env.DYNAMODB_LOCAL_PORT
                         String coverage = env.COVERAGE_THRESHOLD 
