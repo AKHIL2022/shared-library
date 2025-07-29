@@ -60,17 +60,6 @@ def call(String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitE
                 function_src_object_name = "${s3ObjectName}"
               }
               """.stripIndent()
-        } else {
-          localsContent = """\
-              # Lambda: ${lambdaName}
-              # Branch: ${GIT_BRANCH.replaceFirst('.+?/', '')}
-              locals {
-                function_src_commit_hash = "${gitCommitHash}"
-                function_src_commit_date = "${gitCommitDate}"
-                function_src_bucket_name = "${s3BucketName}"
-                function_src_object_name = "${s3ObjectName}"
-              }
-              """.stripIndent()
         }
         writeFile(
             file: versionFileName,
