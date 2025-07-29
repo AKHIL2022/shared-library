@@ -60,7 +60,7 @@ def call(String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitE
                 function_src_object_name = "${s3ObjectName}"
               }
               """.stripIndent()
-        } else else {
+        } else {
           localsContent = """\
               # Lambda: ${lambdaName}
               # Branch: ${GIT_BRANCH.replaceFirst('.+?/', '')}
