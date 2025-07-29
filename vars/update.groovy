@@ -3,7 +3,7 @@ def call(String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitE
   String s3BucketName = 'tf-test-1'
   String authorName = 'Jenkins Build'
   String authorEmail = 'build@example.com'
-  String gitEnvFolderName = "floward-exercise-deployment-98"
+  String gitEnvFolderName = "floward-exercise-deployment-99"
   String gitCommitHash, gitCommitDate, gitCommitSubject, gitCommitAuthorName, gitCommitAuthorEmail      
     withCredentials([sshUserPrivateKey(credentialsId: 'github-jenkins', keyFileVariable: 'SSH_KEY')]) {
         sh "GIT_SSH_COMMAND=\"ssh -i \\\"$SSH_KEY\\\"\" git clone --depth=1 --branch ${gitEnvDevBranchName} ${gitEnvUrl}"
