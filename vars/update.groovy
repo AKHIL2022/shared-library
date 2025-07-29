@@ -62,7 +62,7 @@ def call(String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitE
               """.stripIndent()
         } else {
           localsContent = """\
-              # Lambda: ${lambdaName}
+              # Lambda: ${lamdaName}
               # Branch: ${GIT_BRANCH.replaceFirst('.+?/', '')}
               locals {
                 function_src_commit_hash = "${gitCommitHash}"
