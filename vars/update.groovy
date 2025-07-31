@@ -1,5 +1,5 @@
 def call(String gitEnvRepoCredentialsId, String gitEnvDevBranchName, String gitEnvUrl, 
-         String versionFileName, String lamdaName, String s3ObjectName, String applicationName, String localFolderName, String localsFormat) {
+         String versionFileName, String lamdaName, String s3ObjectName, String applicationName, String localFolderName, String localsFormat = null) {
   String s3BucketName = 'tf-test-1'
   String authorName = 'Jenkins Build'
   String authorEmail = 'build@example.com'
