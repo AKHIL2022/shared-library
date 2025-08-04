@@ -1,4 +1,4 @@
-   def call(String projectName, isPackageJsonChanged, forceBuild) {
+   /*def call(String projectName, isPackageJsonChanged, forceBuild) {
     String productName = 'HCLCODE'
     String apiKeyCredentialId = params.apiKeyCredentialId ?: 'mend-api-key'
         withEnv([
@@ -23,4 +23,25 @@
                 }
             }
         }
+}*/
+
+def call() {
+
+    // Run tests
+    sh 'npm run test'
+
+    // Publish Cobertura coverage report
+    step([$class: 'CoberturaPublisher',
+          autoUpdateHealth: false,
+          autoUpdateStability: false,
+          coberturaReportFile: '**/coverage/cobertura-coverage.xml',
+          failUnhealthy: true,
+          failUnstable: false,
+          maxNumberOfBuilds: 0,
+          conditionalCoverageTargets: '70, 0, 0',
+          lineCoverageTargets: '80, 0, 0',
+          methodCoverageTargets: '80, 0, 0',
+          onlyStable: false,
+          sourceEncoding: 'ASCII',
+          zoomCoverageChart: false])
 }
