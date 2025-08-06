@@ -1,4 +1,4 @@
-   /*def call(String projectName, isPackageJsonChanged, forceBuild) {
+   def call(String projectName, boolean isPackageJsonChanged, boolean continueOnAuditFail) {
     String productName = 'HCLCODE'
     String apiKeyCredentialId = params.apiKeyCredentialId ?: 'mend-api-key'
         withEnv([
@@ -7,12 +7,21 @@
             "WS_WSS_URL=https://saas.whitesourcesoftware.com/agent"
         ]) {
             withCredentials([string(credentialsId: apiKeyCredentialId, variable: 'WS_APIKEY')]) {
-                    if (!forceBuild) {
+                def criticalVul = sh(script: 'npm audit --audit-level=critical', returnStatus: true)
+                def highVul = sh(script: 'npm audit --audit-level=high', returnStatus: true)
+                if (criticalVul != 0) {
+                    echo "npm audit found issues (exit code: ${criticalVul})"
+                    if (continueOnAuditFail == false) {
+                        echo "${continueOnAuditFail}"
                         error('Failing pipeline due to audit errors.')
                     } else {
-                        unstable("Proceeding despite audit issues.")
+                        echo "${continueOnAuditFail}"
+                        unstable("Proceeding despite critical audit issues.")
                     }
-               echo "isPackageJsonChanged: ${isPackageJsonChanged}"
+                }
+                if (highVul != 0) {
+                    unstable('Proceeding despite audit issues.')
+                }
                 if (isPackageJsonChanged) {
                     echo 'Downloading Mend Unified Agent'
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
@@ -23,25 +32,4 @@
                 }
             }
         }
-}*/
-
-def call() {
-
-    // Run tests
-    sh 'npm run test'
-
-    // Publish Cobertura coverage report
-    step([$class: 'CoberturaPublisher',
-          autoUpdateHealth: false,
-          autoUpdateStability: false,
-          coberturaReportFile: '**/coverage/cobertura-coverage.xml',
-          failUnhealthy: true,
-          failUnstable: false,
-          maxNumberOfBuilds: 0,
-          conditionalCoverageTargets: '70, 0, 0',
-          lineCoverageTargets: '80, 0, 0',
-          methodCoverageTargets: '80, 0, 0',
-          onlyStable: false,
-          sourceEncoding: 'ASCII',
-          zoomCoverageChart: false])
 }
