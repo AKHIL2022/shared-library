@@ -13,7 +13,7 @@
                 def highVul = sh(script: 'npm audit --audit-level=high', returnStatus: true)
                 if (criticalVul != 0) {
                     echo "npm audit found issues (exit code: ${criticalVul})"
-                    if (continueOnAuditFailBool == false) {
+                    if (continueOnAuditFail == false) {
                         echo "${continueOnAuditFail}"
                         error('Failing pipeline due to critical audit errors.')
                     } else {
