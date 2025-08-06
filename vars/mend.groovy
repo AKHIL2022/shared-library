@@ -15,7 +15,7 @@
                     echo "npm audit found issues (exit code: ${criticalVul})"
                     if (continueOnAuditFailBool == false) {
                         echo "${continueOnAuditFail}"
-                        error('Failing pipeline due to audit errors.')
+                        error('Failing pipeline due to critical audit errors.')
                     } else {
                         echo "${continueOnAuditFailBool}"
                         unstable("Proceeding despite critical audit issues.")
