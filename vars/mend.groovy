@@ -1,6 +1,6 @@
-   def call(String projectName, isPackageJsonChanged, continueOnAuditFail) {
-    boolean isPackageJsonChangedBool = isPackageJsonChanged.toBoolean()
-    boolean continueOnAuditFailBool = continueOnAuditFail.toBoolean()
+   def call(String projectName, packageJsonChanged, continueAuditFail) {
+    boolean isPackageJsonChanged = packageJsonChanged.toBoolean()
+    boolean continueOnAuditFail = continueAuditFail.toBoolean()
     String productName = 'HCLCODE'
     String apiKeyCredentialId = params.apiKeyCredentialId ?: 'mend-api-key'
         withEnv([
@@ -17,14 +17,14 @@
                         echo "${continueOnAuditFail}"
                         error('Failing pipeline due to critical audit errors.')
                     } else {
-                        echo "${continueOnAuditFailBool}"
+                        echo "${continueOnAuditFail}"
                         unstable("Proceeding despite critical audit issues.")
                     }
                 }
                 if (highVul != 0) {
                     unstable('Proceeding despite audit issues.')
                 }
-                if (isPackageJsonChangedBool) {
+                if (isPackageJsonChanged) {
                     echo 'Downloading Mend Unified Agent'
                     sh 'curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar'
                     echo 'Generate Mend Report'
